@@ -1,0 +1,23 @@
+body {
+	background :#2E363F;
+	background-size: cover;
+	padding-top: 150px;
+}
+.login{
+	border: 1px solid #FFFF66;
+	background: #ddd;
+	text-align: center;
+	padding-top: 10px;
+	height: 150px;
+	width: 300px;
+	margin: 0 auto;
+}
+.name{
+	text-align: center;
+	font-size: 100px;
+	font-style: italic;
+	color: #FFFF00;
+}
+.login .<input.submit{
+	background: #2E363F;
+}
