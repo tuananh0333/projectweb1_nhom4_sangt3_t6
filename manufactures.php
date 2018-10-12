@@ -107,7 +107,7 @@
 									echo "<td><img src='public/images/".$value['manu_img']."' style='width:100px'></td>";
 									echo "<td>";
 									echo "<a href='#' class='btn btn-success btn-mini'>Edit</a>";
-									echo "<a href='#' class='btn btn-danger btn-mini'>Delete</a>";
+									echo "<a href='delete.php?manu_id=".$value['manu_ID']."' class='btn btn-danger btn-mini'>Delete</a>";
 									echo "</td>";
 									echo "</tr>";
 								}

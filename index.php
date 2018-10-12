@@ -1,6 +1,6 @@
 <?php 
-	require 'config.php';
 	require 'db.php';
+	$db = new DB;
  ?>
 
 <!DOCTYPE html>
@@ -42,22 +42,24 @@
 	<!--top-Header-menu-->
 	<div id="user-nav" class="navbar navbar-inverse">
 		<ul class="nav">
-			<li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text"><?php 
+			<li  class="dropdown" id="profile-messages" ><a title="" href="login.php" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text">
+			<?php 
 			session_start();
-	if (isset($_SESSION["user"])) {
-		echo "Welcome Super ".$_SESSION["user"]."!<br>";
-	}
-	else
-	{
-		header("location:login.php");
-	}
- ?></span><b class="caret"></b></a>
+				if (isset($_SESSION["user"])) {
+					echo "Welcome Super ".$_SESSION["user"]."!<br>";
+				}
+				else
+				{
+					header("location:login.php");
+				}
+			 ?>
+			</span><b class="caret"></b></a>
 				<ul class="dropdown-menu">
 					<li><a href="#"><i class="icon-user"></i> My Profile</a></li>
 					<li class="divider"></li>
 					<li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
 					<li class="divider"></li>
-					<li><a href="Logout.php"><i class="icon-key"></i> Log Out</a></li>
+					<li><a href="logout.php"><i class="icon-key"></i> Log Out</a></li>
 				</ul>
 			</li>
 			<li class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="icon icon-envelope"></i> <span class="text">Messages</span> <span class="label label-important">5</span> <b class="caret"></b></a>
@@ -72,7 +74,7 @@
 				</ul>
 			</li>
 			<li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>
-			<li class=""><a title="" href="Logout.php"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
+			<li class=""><a title="" href="logout.php"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
 		</ul>
 	</div>
 
@@ -93,9 +95,7 @@
 
 			<li> <a href="form.php"><i class="icon icon-th-list"></i> <span>Add New Product</span></a></li>
 			<li> <a href="manufactures.php"><i class="icon icon-th-list"></i> <span>Manufactures</span></a></li>
-
-
-
+			<li> <a href="protypes.php"><i class="icon icon-th-list"></i> <span>Protypes</span></a></li>
 		</ul>
 	</div>
 	<!-- BEGIN CONTENT -->
@@ -109,7 +109,7 @@
 			<div class="row-fluid">
 				<div class="span12">
 					<div class="widget-box">
-						<div class="widget-title"> <span class="icon"><a href="form.html"> <i class="icon-plus"></i> </a></span>
+						<div class="widget-title"> <span class="icon"><a href="form.php"> <i class="icon-plus"></i> </a></span>
 							<h5>Products</h5>
 						</div>
 						<div class="widget-content nopadding">
@@ -127,13 +127,15 @@
 								</thead>
 								<tbody>
 								<?php 
-									$db = new DB;
-									if (!isset($_GET["page"])){
-										$product = $db->product();
+									if (isset($_GET['page'])) {
+										$current_page = $_GET['page'];
 									}
-									else{
-										$product = $db->product1($_GET["page"]);
+									else {
+										$current_page = 1;
 									}
+									
+									$limit = 10;
+									$product = $db->paging($current_page, $limit);
 
 									foreach ($product as $key => $value) {
 								?>
@@ -161,7 +163,7 @@
 
 										<td>											
 											<a href="edit.php?id=<?php echo $value["ID"] ?>" class="btn btn-success btn-mini">Edit</a>
-											<a href="#" class="btn btn-danger btn-mini">Delete</a>
+											<a href="delete.php?id=<?php  echo $value["ID"]?>" class="btn btn-danger btn-mini">Delete</a>
 										</td>
 									</tr>
 								<?php } ?>
@@ -170,29 +172,9 @@
 							</table>
 							<ul class="pagination">
 								<?php 
-									if (!isset($_GET["page"])){
-	 									for ($index = 1; $index < $db->getProductAmount() / 10 + 1; ++$index){
-											if($index == 1){
-												echo '<li class="active"><a href="index.php?page='.$index.'">'.$index.'</a></li>';
-											}
-											else{
-												echo '<li><a href="index.php?page='.$index.'">'.$index.'</a></li>';
-											}
-										}
-									}
-									else{
-										for ($index = 1; $index < $db->getProductAmount() / 10 + 1; ++$index){
-											if($index == $_GET["page"]){
-												echo '<li class="active"><a href="index.php?page='.$index.'">'.$index.'</a></li>';
-											}
-											else{
-												echo '<li><a href="index.php?page='.$index.'">'.$index.'</a></li>';
-											}
-										}
-									}
-								 ?>
-							</ul>
-							
+									$db->pagingBar($current_page, $limit);
+								 ?>							
+								</ul>
 						</div>
 					</div>
 				</div>
