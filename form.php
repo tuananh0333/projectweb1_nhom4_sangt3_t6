@@ -70,7 +70,7 @@
 
 		<li> <a href="form.php"><i class="icon icon-th-list"></i> <span>Add New Product</span></a></li>
 		<li> <a href="manufactures.php"><i class="icon icon-th-list"></i> <span>Manufactures</span></a></li>
-
+		<li> <a href="protypes.php"><i class="icon icon-th-list"></i> <span>Protypes</span></a></li>
 
 
 	</ul>
@@ -93,7 +93,7 @@
 					<div class="widget-content nopadding">
 
 						<!-- BEGIN USER FORM -->
-						<form action="update.php" method="POST" class="form-horizontal" enctype="multipart/form-data">
+						<form action="addnewproduct.php" method="POST" class="form-horizontal" enctype="multipart/form-data">
 							<!-- INPUT NAME -->
 							<div class="control-group">
 								<label class="control-label">Name :</label>

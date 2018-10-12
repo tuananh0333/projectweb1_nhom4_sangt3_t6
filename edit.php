@@ -1,6 +1,7 @@
 <?php 
 	require 'config.php';
 	require 'db.php';
+	session_start();
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -93,12 +94,13 @@
 					<div class="widget-content nopadding">
 
 						<!-- BEGIN USER FORM -->
-						<form action="#" method="post" class="form-horizontal" enctype="multipart/form-data">
+						<form action="update.php" method="get" class="form-horizontal" enctype="multipart/form-data">
 							<div class="control-group">
 								<label class="control-label">Name :</label>
 								<div class="controls">
 									<?php 
 										if (isset($_GET["id"])){
+											$_SESSION['id'] = $_GET['id'];
 											$db = new DB;
 											$product = $db->getProduct($_GET["id"]);
 											foreach ($product as $value) {
@@ -107,6 +109,7 @@
 												$typeID = $value["type_ID"];
 												$description = $value["description"];
 												$price = $value["price"];
+												
 											}
 											
 										}
@@ -171,12 +174,8 @@
 										</div>
 
 									</div>
-
-									<div class="form-actions">
-										<a href="update.php?" class="btn btn-success">Gửi</a>
-									</div>
 								</div>
-
+								<input type="submit" name="" value="Gửi" class="btn btn-success">
 						</form>
 						<!-- END USER FORM -->
 
