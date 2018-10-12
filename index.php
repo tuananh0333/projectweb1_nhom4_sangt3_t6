@@ -1,4 +1,5 @@
 <?php 
+	require 'config.php';
 	require 'db.php';
  ?>
 
@@ -41,13 +42,22 @@
 	<!--top-Header-menu-->
 	<div id="user-nav" class="navbar navbar-inverse">
 		<ul class="nav">
-			<li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text">Welcome Super Admin</span><b class="caret"></b></a>
+			<li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text"><?php 
+			session_start();
+	if (isset($_SESSION["user"])) {
+		echo "Welcome Super ".$_SESSION["user"]."!<br>";
+	}
+	else
+	{
+		header("location:login.php");
+	}
+ ?></span><b class="caret"></b></a>
 				<ul class="dropdown-menu">
 					<li><a href="#"><i class="icon-user"></i> My Profile</a></li>
 					<li class="divider"></li>
 					<li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
 					<li class="divider"></li>
-					<li><a href="login.php"><i class="icon-key"></i> Log Out</a></li>
+					<li><a href="Logout.php"><i class="icon-key"></i> Log Out</a></li>
 				</ul>
 			</li>
 			<li class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="icon icon-envelope"></i> <span class="text">Messages</span> <span class="label label-important">5</span> <b class="caret"></b></a>
@@ -62,7 +72,7 @@
 				</ul>
 			</li>
 			<li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>
-			<li class=""><a title="" href="login.php"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
+			<li class=""><a title="" href="Logout.php"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
 		</ul>
 	</div>
 
@@ -99,7 +109,7 @@
 			<div class="row-fluid">
 				<div class="span12">
 					<div class="widget-box">
-						<div class="widget-title"> <span class="icon"><a href="form.php"> <i class="icon-plus"></i> </a></span>
+						<div class="widget-title"> <span class="icon"><a href="form.html"> <i class="icon-plus"></i> </a></span>
 							<h5>Products</h5>
 						</div>
 						<div class="widget-content nopadding">
@@ -180,7 +190,8 @@
 											}
 										}
 									}
-								 ?>							</ul>
+								 ?>
+							</ul>
 							
 						</div>
 					</div>

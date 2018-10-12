@@ -29,7 +29,7 @@
 			}
 			else
 			{
-				echo "Sai ID hoặc pass. Vui lòng nhập lại!";
+				echo '<div style="text-align: center; color: red; padding-top: 10px;">Sai ID hoặc pass. Vui lòng nhập lại!</div>';
 			}
 		}
 	}
