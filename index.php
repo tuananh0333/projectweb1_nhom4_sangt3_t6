@@ -1,5 +1,4 @@
 <?php 
-	require 'config.php';
 	require 'db.php';
  ?>
 
@@ -48,7 +47,7 @@
 					<li class="divider"></li>
 					<li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
 					<li class="divider"></li>
-					<li><a href="login.html"><i class="icon-key"></i> Log Out</a></li>
+					<li><a href="login.php"><i class="icon-key"></i> Log Out</a></li>
 				</ul>
 			</li>
 			<li class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="icon icon-envelope"></i> <span class="text">Messages</span> <span class="label label-important">5</span> <b class="caret"></b></a>
@@ -63,7 +62,7 @@
 				</ul>
 			</li>
 			<li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>
-			<li class=""><a title="" href="login.html"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
+			<li class=""><a title="" href="login.php"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
 		</ul>
 	</div>
 
@@ -92,7 +91,7 @@
 	<!-- BEGIN CONTENT -->
 	<div id="content">
 		<div id="content-header">
-			<div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom current"><i class="icon-home"></i> Home</a></div>
+			<div id="breadcrumb"> <a href="index.php" title="Go to Home" class="tip-bottom current"><i class="icon-home"></i> Home</a></div>
 			<h1>Manage Products</h1>
 		</div>
 		<div class="container-fluid">
@@ -100,7 +99,7 @@
 			<div class="row-fluid">
 				<div class="span12">
 					<div class="widget-box">
-						<div class="widget-title"> <span class="icon"><a href="form.html"> <i class="icon-plus"></i> </a></span>
+						<div class="widget-title"> <span class="icon"><a href="form.php"> <i class="icon-plus"></i> </a></span>
 							<h5>Products</h5>
 						</div>
 						<div class="widget-content nopadding">
@@ -181,8 +180,7 @@
 											}
 										}
 									}
-								 ?>
-							</ul>
+								 ?>							</ul>
 							
 						</div>
 					</div>

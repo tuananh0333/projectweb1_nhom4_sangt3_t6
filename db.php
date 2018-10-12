@@ -1,4 +1,6 @@
-<?php 
+<?php
+require "config.php";
+
 class DB{
 	public static $conn;
 
@@ -111,6 +113,13 @@ class DB{
 		$sql = "SELECT * FROM `products` WHERE `name` LIKE '%".$key."%' OR `description` LIKE '%".$key."%'";
 		$result = self::$conn->query($sql);
 		return $result;
+	}
+
+	public function addNewProduct($name, $type_id, $manu_id, $image, $description, $price)
+	{
+		$sql = "INSERT INTO products (`name`, `price`, `image`, `description`, `manu_ID`, `type_ID`) VALUES ('$name',$price,'$image','$description',$manu_id,$type_id)";
+		
+		return self::$conn->query($sql);
 	}
 	//self::$conn->close();
 }
