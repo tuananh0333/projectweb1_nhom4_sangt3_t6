@@ -1,6 +1,7 @@
 <?php 
 	require 'db.php';
 	$db = new DB;
+	session_start();
  ?>
 
 <!DOCTYPE html>
@@ -35,146 +36,142 @@
 <body>
 	<!--Header-part-->
 	<div id="header">
-		<h1><a href="index.php">Dashboard</a></h1>
+		<h1><a href="index.php">Trang chủ</a></h1>
 	</div>
 	<!--close-Header-part-->
 
 	<!--top-Header-menu-->
 	<div id="user-nav" class="navbar navbar-inverse">
 		<ul class="nav">
-			<li  class="dropdown" id="profile-messages" ><a title="" href="login.php" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text">
-			<?php 
-			session_start();
-				if (isset($_SESSION["user"])) {
-					echo "Welcome Super ".$_SESSION["user"]."!<br>";
-				}
-				else
-				{
-					header("location:login.php");
-				}
-			 ?>
-			</span><b class="caret"></b></a>
+			<li  class="dropdown" id="profile-messages" >
+				<a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle">
+					<i class="icon icon-user"></i>
+					<span class="text">
+						<?php 
+							// Kiểm tra xem người dùng đăng nhập hay chưa
+							if (isset($_SESSION["user"])) {
+								echo 'Xin chào '.$_SESSION["user"].'!';
+							}
+							else {
+								header('location:login.php');
+							}
+						 ?>
+					</span>
+					<b class="caret"></b>
+				</a>
 				<ul class="dropdown-menu">
-					<li><a href="#"><i class="icon-user"></i> My Profile</a></li>
+					<li><a href="tasks.php"><i class="icon-check"></i>Tác vụ</a></li>
 					<li class="divider"></li>
-					<li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
-					<li class="divider"></li>
-					<li><a href="logout.php"><i class="icon-key"></i> Log Out</a></li>
+					<li><a href="login.php"><i class="icon-key"></i>Đăng xuất</a></li>
 				</ul>
 			</li>
-			<li class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="icon icon-envelope"></i> <span class="text">Messages</span> <span class="label label-important">5</span> <b class="caret"></b></a>
-				<ul class="dropdown-menu">
-					<li><a class="sAdd" title="" href="#"><i class="icon-plus"></i> new message</a></li>
-					<li class="divider"></li>
-					<li><a class="sInbox" title="" href="#"><i class="icon-envelope"></i> inbox</a></li>
-					<li class="divider"></li>
-					<li><a class="sOutbox" title="" href="#"><i class="icon-arrow-up"></i> outbox</a></li>
-					<li class="divider"></li>
-					<li><a class="sTrash" title="" href="#"><i class="icon-trash"></i> trash</a></li>
-				</ul>
+			<li class="">
+				<a title="" href="login.php"><i class="icon icon-share-alt"></i><span class="text"> Đăng xuất</span></a>
 			</li>
-			<li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>
-			<li class=""><a title="" href="logout.php"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
 		</ul>
 	</div>
 
-	<!--start-top-serch-->
+	<!--start-top-search-->
 	<div id="search">
 		<form action="result.php" method="get">
-			<input type="text" placeholder="Search here..." name="key"/>
+			<input type="text" placeholder="Tìm kiếm..." name="key"/>
 			<button type="submit" class="tip-bottom" title="Search"><i class="icon-search icon-white"></i></button>
 		</form>
 	</div>
-	<!--close-top-serch-->
+	<!--close-top-search-->
 
 	<!--sidebar-menu-->
-
-	<div id="sidebar"> <a href="#" class="visible-phone"><i class="icon icon-th"></i>Tables</a>
+	<div id="sidebar"> 
+		<a href="#" class="visible-phone"><i class="icon icon-th"></i>Bảng</a>
 		<ul>
-			<li><a href="index.php"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
-
-			<li> <a href="form.php"><i class="icon icon-th-list"></i> <span>Add New Product</span></a></li>
-			<li> <a href="manufactures.php"><i class="icon icon-th-list"></i> <span>Manufactures</span></a></li>
-			<li> <a href="protypes.php"><i class="icon icon-th-list"></i> <span>Protypes</span></a></li>
+			<li><a href="index.php"><i class="icon icon-home"></i> <span>Trang chủ</span></a> </li>
+			<li> <a href="form_product.php"><i class="icon icon-th-list"></i> <span>Thêm sản phẩm mới</span></a></li>
+			<li> <a href="manufactures.php"><i class="icon icon-th-list"></i> <span>Nhà sản xuất</span></a></li>
+			<li> <a href="protypes.php"><i class="icon icon-th-list"></i> <span>Loại sản phẩm</span></a></li>
 		</ul>
 	</div>
 	<!-- BEGIN CONTENT -->
 	<div id="content">
 		<div id="content-header">
-			<div id="breadcrumb"> <a href="index.php" title="Go to Home" class="tip-bottom current"><i class="icon-home"></i> Home</a></div>
-			<h1>Manage Products</h1>
+			<div id="breadcrumb"> 
+				<a href="index.php" title="Về trang chủ" class="tip-bottom current"><i class="icon-home"> </i>Trang chủ</a>
+			</div>
+			<h1>Quản lý sản phẩm</h1>
 		</div>
 		<div class="container-fluid">
 			<hr>
 			<div class="row-fluid">
 				<div class="span12">
 					<div class="widget-box">
-						<div class="widget-title"> <span class="icon"><a href="form.php"> <i class="icon-plus"></i> </a></span>
-							<h5>Products</h5>
+						<div class="widget-title">
+							<span class="icon"><a href="form.php"><i class="icon-plus"></i></a></span>
+							<h5>Sản phẩm</h5>
 						</div>
 						<div class="widget-content nopadding">
 							<table class="table table-bordered table-striped">
 								<thead>
 								<tr>
-									<th></th>
-									<th>Name</th>
-									<th>Category</th>
-									<th>Producer</th>
-									<th>Description</th>
-									<th>Price (VND)</th>
-									<th>Action</th>
+									<th>Hình ảnh</th>
+									<th>Tên</th>
+									<th>Loại</th>
+									<th>Nhà sản xuất</th>
+									<th>Thông tin chi tiết</th>
+									<th>Giá (VNĐ)</th>
+									<th>Thao tác</th>
 								</tr>
 								</thead>
 								<tbody>
-								<?php 
-									if (isset($_GET['page'])) {
-										$current_page = $_GET['page'];
-									}
-									else {
-										$current_page = 1;
-									}
-									
-									$limit = 10;
-									$product = $db->paging($current_page, $limit);
+									<?php 
+										// Xác định trang hiện tại
+										if (isset($_GET['page'])) {
+											$current_page = $_GET['page'];
+										}
+										else {
+											$current_page = 1;
+										}
+										// Xác định số lượng sản phẩm trên 1 trang
+										$limit = 10;
+										// Tên bảng cần lấy dữ liệu
+										$table = 'products';
+										// Lấy dữ liệu vào 1 mảng
+										$product = $db->paging($current_page, $limit, $table);
+										// Duyệt mảng và in ra
+										foreach ($product as $value) {
+											echo '<tr>';
+											echo '<td width = "200"><img class="img-responsive" width="300" height="350" src= "public/images/'.$value["image"].'"></td>';
+											echo '<td>'.$value["name"].'</td>';
+											if($db->getProtype($value["type_ID"]) == null)
+											{
+												echo '<td>'.'không xác định'.'</td>';
+											}else
+											{
+												echo '<td>'.$db->getProtypeName($value["type_ID"]).'</td>';
+											}
 
-									foreach ($product as $key => $value) {
-								?>
-									<tr class="">
-										<td>
-											<img class="img-responsive" width="300" height="350" src= "public/images/<?php echo $value['image']?>">
-										</td>
-
-										<td>
-											<?php echo $value["name"] ?>
-										</td>
-										<td>
-											<?php echo $db->getProtype($value["type_ID"]); ?>
-										</td>
-
-										<td>
-											<?php echo $db->getManufacture($value["manu_ID"]); ?>
-										</td>
-										<td>
-											<?php echo $value["description"] ?>
-										</td>
-										<td>
-											<?php echo $value["price"] ?>
-										</td>
-
-										<td>											
-											<a href="edit.php?id=<?php echo $value["ID"] ?>" class="btn btn-success btn-mini">Edit</a>
-											<a href="delete.php?id=<?php  echo $value["ID"]?>" class="btn btn-danger btn-mini">Delete</a>
-										</td>
-									</tr>
-								<?php } ?>
-
-							</tbody>
+											if($db->getManufacture($value["manu_ID"]) == null)
+											{
+												echo '<td>'.'không xác định'.'</td>';
+											}else
+											{
+												echo '<td>'.$db->getManufactureName($value["manu_ID"]).'</td>';
+											}
+											echo '<td>'.$value["description"].'</td>';
+											echo '<td>'.number_format($value["price"]).'</td>';
+											echo '<td width="75">';											
+											echo '<a href="form_product.php?id='.$value["ID"].'" class="btn btn-success btn-mini">Chỉnh sửa</a> <br>';
+											echo '<a href="delete.php?id='.$value["ID"].'" class="btn btn-danger btn-mini">Xóa</a>';
+											echo '</td>';
+											echo '</tr>';
+										}
+									 ?>
+								</tbody>
 							</table>
 							<ul class="pagination">
 								<?php 
-									$db->pagingBar($current_page, $limit);
+									// Hiện thanh phân trang
+									$db->pagingBar($current_page, $limit, $table);
 								 ?>							
-								</ul>
+							</ul>
 						</div>
 					</div>
 				</div>

@@ -1,9 +1,16 @@
 <?php 
-	require 'config.php';
-	require 'db.php';
+	if (isset($_GET["key"])) {
+		require 'db.php';
+		$db = new DB;
+		session_start();
+	}
+	else {
+		header('location: index.php');
+	}
  ?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 	<title>Mobile Admin</title>
 	<meta charset="UTF-8" />
@@ -16,70 +23,83 @@
 	<link rel="stylesheet" href="public/css/matrix-media.css" />
 	<link href="public/font-awesome/css/font-awesome.css" rel="stylesheet" />
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+	<style type="text/css">
+		ul.pagination{
+			list-style: none;
+			float: right;
+		}
+		ul.pagination li.active{
+			font-weight: bold
+		}
+		ul.pagination li{
+		  float: left;
+		  display: inline-block;
+		  padding: 10px
+		}
+	</style>
 </head>
 <body>
+	<!--Header-part-->
+	<div id="header">
+		<h1><a href="index.php">Trang chủ</a></h1>
+	</div>
+	<!--close-Header-part-->
 
-<!--Header-part-->
-<div id="header">
-	<h1><a href="dashboard.html">Dashboard</a></h1>
-</div>
-<!--close-Header-part-->
+	<!--top-Header-menu-->
+	<div id="user-nav" class="navbar navbar-inverse">
+		<ul class="nav">
+			<li  class="dropdown" id="profile-messages" >
+				<a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle">
+					<i class="icon icon-user"></i>
+					<span class="text">
+						<?php 
+							// Kiểm tra xem người dùng đăng nhập hay chưa
+							if (isset($_SESSION["user"])) {
+								echo 'Xin chào '.$_SESSION["user"].'!';
+							}
+							else {
+								header('location:login.php');
+							}
+						 ?>
+					</span>
+					<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="tasks.php"><i class="icon-check"></i>Tác vụ</a></li>
+					<li class="divider"></li>
+					<li><a href="login.php"><i class="icon-key"></i>Đăng xuất</a></li>
+				</ul>
+			</li>
+			<li class="">
+				<a title="" href="login.php"><i class="icon icon-share-alt"></i><span class="text"> Đăng xuất</span></a>
+			</li>
+		</ul>
+	</div>
 
-<!--top-Header-menu-->
-<div id="user-nav" class="navbar navbar-inverse">
-	<ul class="nav">
-		<li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text">Welcome Super Admin</span><b class="caret"></b></a>
-			<ul class="dropdown-menu">
-				<li><a href="#"><i class="icon-user"></i> My Profile</a></li>
-				<li class="divider"></li>
-				<li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
-				<li class="divider"></li>
-				<li><a href="login.html"><i class="icon-key"></i> Log Out</a></li>
-			</ul>
-		</li>
-		<li class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="icon icon-envelope"></i> <span class="text">Messages</span> <span class="label label-important">5</span> <b class="caret"></b></a>
-			<ul class="dropdown-menu">
-				<li><a class="sAdd" title="" href="#"><i class="icon-plus"></i> new message</a></li>
-				<li class="divider"></li>
-				<li><a class="sInbox" title="" href="#"><i class="icon-envelope"></i> inbox</a></li>
-				<li class="divider"></li>
-				<li><a class="sOutbox" title="" href="#"><i class="icon-arrow-up"></i> outbox</a></li>
-				<li class="divider"></li>
-				<li><a class="sTrash" title="" href="#"><i class="icon-trash"></i> trash</a></li>
-			</ul>
-		</li>
-		<li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>
-		<li class=""><a title="" href="login.html"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
-	</ul>
-</div>
+	<!--start-top-search-->
+	<div id="search">
+		<form action="result.php" method="get">
+			<input type="text" placeholder="Tìm kiếm..." name="key"/>
+			<button type="submit" class="tip-bottom" title="Search"><i class="icon-search icon-white"></i></button>
+		</form>
+	</div>
+	<!--close-top-search-->
 
-<!--start-top-serch-->
-<div id="search">
-	<form action="result.php" method="get">
-		<input type="text" placeholder="Search here..." name="key"/>
-		<button type="submit" class="tip-bottom" title="Search"><i class="icon-search icon-white"></i></button>
-	</form>
-</div>
-<!--close-top-serch-->
-
-<!--sidebar-menu-->
-
-<div id="sidebar"> <a href="#" class="visible-phone"><i class="icon icon-th"></i>Tables</a>
-	<ul>
-		<li><a href="index.php"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
-
-		<li> <a href="form.php"><i class="icon icon-th-list"></i> <span>Add New Product</span></a></li>
-		<li> <a href="manufactures.php"><i class="icon icon-th-list"></i> <span>Manufactures</span></a></li>
-
-
-
-	</ul>
-</div>
+	<!--sidebar-menu-->
+	<div id="sidebar"> 
+		<a href="#" class="visible-phone"><i class="icon icon-th"></i>Bảng</a>
+		<ul>
+			<li><a href="index.php"><i class="icon icon-home"></i> <span>Trang chủ</span></a> </li>
+			<li> <a href="form_product.php"><i class="icon icon-th-list"></i> <span>Thêm sản phẩm mới</span></a></li>
+			<li> <a href="manufactures.php"><i class="icon icon-th-list"></i> <span>Nhà sản xuất</span></a></li>
+			<li> <a href="protypes.php"><i class="icon icon-th-list"></i> <span>Loại sản phẩm</span></a></li>
+		</ul>
+	</div>
 <!-- BEGIN CONTENT -->
 <div id="content">
 	<div id="content-header">
 		<div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom current"><i class="icon-home"></i> Home</a></div>
-		<h1>Search Result:</h1>
+		<h1>Kết quả tìm kiếm:</h1>
 	</div>
 	<div class="container-fluid">
 		<hr>
@@ -87,57 +107,67 @@
 			<div class="span12">
 				<div class="widget-box">
 					<div class="widget-title"> <span class="icon"><a href="form.html"> <i class="icon-plus"></i> </a></span>
-						<h5>Products</h5>
+						<h5>Sản phẩm</h5>
 					</div>
 					<div class="widget-content nopadding">
 						<table class="table table-bordered table-striped">
 							<thead>
 							<tr>
 								<th></th>
-								<th>Name</th>
-								<th>Category</th>
-								<th>Producer</th>
+								<th>Tên</th>
+								<th>Loại sản phẩm</th>
+								<th>Nhà sản xuất</th>
 								<th>Description</th>
-								<th>Price (VND)</th>
+								<th>Giá (VND)</th>
 								<th>Action</th>
 							</tr>
 							</thead>
 							<tbody>
-							<?php 
-								if (isset($_GET["key"])){
-									$db = new DB;
-									$product = $db->search($_GET["key"]);
+							<?php
+									$product = $db->searchProduct($_GET["key"]);
 
 									foreach ($product as $key => $value) {	
 							?>
 									<tr class="">
-										<td>
+										<td width="200">
 											<img src= "public/images/<?php echo $value['image']?>">
 										</td>
 
 										<td>
 											<?php echo $value["name"] ?>
 										</td>
-										<td>
-											<?php echo $db->getProtype($value["type_ID"]); ?>
-										</td>
+											<?php 
+												if($db->getProtype($value["type_ID"]) == null)
+												{
+													echo '<td>'.'không xác định'.'</td>';
+												}else
+												{
+													echo '<td>'.$db->getProtypeName($value["type_ID"]).'</td>';
+												}
+											 ?>
 
-										<td>
-											<?php echo $db->getManufacture($value["manu_ID"]); ?>
-										</td>
+											<?php 
+												if($db->getManufacture($value["manu_ID"]) == null)
+												{
+													echo '<td>'.'không xác định'.'</td>';
+												}else
+												{
+													echo '<td>'.$db->getManufactureName($value["manu_ID"]).'</td>';
+												}
+											 ?>
 										<td>
 											<?php echo $value["description"] ?>
 										</td>
 										<td>
-											<?php echo $value["price"] ?>
+											<?php echo number_format($value["price"])  ?>
 										</td>
 
-										<td>
-											<a href="edit.php" class="btn btn-success btn-mini">Edit</a>
-											<a href="#" class="btn btn-danger btn-mini">Delete</a>
+										<td width="75">												
+											<a href="form_product.php?id=<?php $value['ID'] ?>" class="btn btn-success btn-mini">Chỉnh sửa</a> <br>
+											<a href="#" class="btn btn-danger btn-mini">Xóa</a>
 										</td>
 									</tr>
-								<?php }
+								<?php
 								} ?>
 							</tbody>
 						</table>

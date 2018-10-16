@@ -2,6 +2,7 @@
 	require 'db.php';
 	$db = new DB;
 	session_start();
+
  ?>
 
 <!DOCTYPE html>
@@ -85,72 +86,84 @@
 		<a href="#" class="visible-phone"><i class="icon icon-th"></i>Bảng</a>
 		<ul>
 			<li><a href="index.php"><i class="icon icon-home"></i> <span>Trang chủ</span></a> </li>
+			<li> <a href="form_product.php"><i class="icon icon-th-list"></i> <span>Thêm sản phẩm mới</span></a></li>
 			<li> <a href="manufactures.php"><i class="icon icon-th-list"></i> <span>Nhà sản xuất</span></a></li>
 			<li> <a href="protypes.php"><i class="icon icon-th-list"></i> <span>Loại sản phẩm</span></a></li>
-			<li> <a href="form_protype.php"><i class="icon icon-th-list"></i> <span>Thêm loại sản phẩm mới</span></a></li>
 		</ul>
 	</div>
-<!-- BEGIN CONTENT -->
-<div id="content">
-	<div id="content-header">
-		<div id="breadcrumb"> <a href="index.php" title="Go to Home" class="tip-bottom current"><i class="icon-home"></i> Home</a></div>
-		<h1>Manage Producer</h1>
-	</div>
-	<div class="container-fluid">
-		<hr>
-		<div class="row-fluid">
-			<div class="span12">
-				<div class="widget-box">
-					<div class="widget-title"> <span class="icon"><a href="form_protype.php"><i class="icon-plus"></i></a></span>
-						<h5>Products</h5>
-					</div>
-					<div class="widget-content nopadding">
-						<table class="table table-bordered table-striped">
-							<thead>
-							<tr>
-								<th>Type_ID</th>
-								<th>Type_Name</th>
-								<th>Type_image</th>
-								<th>Action</th>
-							</tr>
-							</thead>
-							<tbody>
-							<?php 
-								$protypes = $db->getTable('protypes');
-								foreach ($protypes as $value) {
-									echo "<tr>";
-									echo "<td>".$value['type_ID']."</td>";
-									echo "<td>".$value['type_name']."</td>";
-									echo "<td><img src='public/images/".$value['type_img']."' style='width:100px'></td>";
-									echo "<td>";
-									echo "<a href='form_protype?protype=".$value['type_ID']."' class='btn btn-success btn-mini'>Chỉnh sửa</a>";
-									echo "<a href='delete.php?type_id=".$value['type_ID']."' class='btn btn-danger btn-mini'>Xóa</a>";
-									echo "</td>";
-									echo "</tr>";
-								}
-							 ?>
-							</tbody>
-						</table>
+	<!-- BEGIN CONTENT -->
+	<div id="content">
+		<div id="content-header">
+			<div id="breadcrumb"> 
+				<a href="index.php" title="Về trang chủ" class="tip-bottom current"><i class="icon-home"> </i>Trang chủ</a>
+			</div>
+			<h1>Tác vụ</h1>
+		</div>
+		<div class="container-fluid">
+			<hr>
+			<div class="row-fluid">
+				<div class="span12">	
+					<div class="widget-box">
+						
+						<div class="widget-content nopadding">
+							<table class="table table-bordered table-striped">
+								<thead>
+								<tr>
+									<th>Tên tác vụ</th>
+									<th>Người thực hiện</th>
+									<th>Thời gian</th>
+									<th>Mô tả</th>
+								</tr>
+								</thead>
+								<tbody>
+									<?php 
+									if(isset($_SESSION["tasks"]))
+									{
+										$tasks = $_SESSION["tasks"];
+										//if(sizeof($tasks) != 0)
+										//{
+											foreach ($tasks as $key => $value) {
+												echo '<tr>';
+												echo '<td>'.$value->getName().'</td>';
+												echo '<td>'.$value->getUser().'</td>';
+												echo '<td>'.$value->getTime().'</td>';
+												echo '<td>'.$value->getDescription().'</td>';
+												echo '</tr>';
+											}
+										//}
+									}
+									else
+									{
+										echo '<tr>';
+										echo "<td colspan='3' style='text-align: center;'>chưa có tác vụ nào hiện tại</td>";
+										echo '</tr>';
+									}
+									
+									 ?>
+								</tbody>
+							</table>
+							<ul class="pagination">
+														
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<!-- END CONTENT -->
-
-<!--Footer-part-->
-<div class="row-fluid">
-	<div id="footer" class="span12"> 2017 &copy; TDC - Lập trình web 1</div>
-</div>
-<!--end-Footer-part-->
-<script src="public/js/jquery.min.js"></script>
-<script src="public/js/jquery.ui.custom.js"></script>
-<script src="public/js/bootstrap.min.js"></script>
-<script src="public/js/jquery.uniform.js"></script>
-<script src="public/js/select2.min.js"></script>
-<script src="public/js/jquery.dataTables.min.js"></script>
-<script src="public/js/matrix.js"></script>
-<script src="public/js/matrix.tables.js"></script>
+	<!-- END CONTENT -->
+	<!--Footer-part-->
+	<div class="row-fluid">
+		<div id="footer" class="span12"> 2017 &copy; TDC - Lập trình web 1</div>
+	</div>
+	<!--end-Footer-part-->
+	<script src="public/js/jquery.min.js"></script>
+	<script src="public/js/jquery.ui.custom.js"></script>
+	<script src="public/js/bootstrap.min.js"></script>
+	<script src="public/js/jquery.uniform.js"></script>
+	<script src="public/js/select2.min.js"></script>
+	<script src="public/js/jquery.dataTables.min.js"></script>
+	<script src="public/js/matrix.js"></script>
+	<script src="public/js/matrix.tables.js"></script>
 </body>
 </html>

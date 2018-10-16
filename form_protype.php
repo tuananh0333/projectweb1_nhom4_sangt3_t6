@@ -2,6 +2,19 @@
 	require 'db.php';
 	$db = new DB;
 	session_start();
+	if (isset($_GET["id"])) {
+		$protype = $db->getProtype($_GET["id"]);
+			foreach ($protype as $value) {
+				$id = $_GET["id"];
+				$name = $value["type_name"];
+				$img = $value["type_img"];
+			}
+	}
+	else {
+		$id = "";
+		$name = "";
+		$img = "";
+	}
  ?>
 
 <!DOCTYPE html>
@@ -94,51 +107,68 @@
 <div id="content">
 	<div id="content-header">
 		<div id="breadcrumb"> <a href="index.php" title="Go to Home" class="tip-bottom current"><i class="icon-home"></i> Home</a></div>
-		<h1>Manage Producer</h1>
+		<?php 
+			if (!isset($_GET["id"])) {
+				echo '<h1>Thêm Loại Sản Phẩm Mới</h1>';
+			}
+			else {
+				echo '<h1>Chỉnh Sửa Loại Sản Phẩm</h1>';
+			}
+		 ?>
 	</div>
 	<div class="container-fluid">
 		<hr>
 		<div class="row-fluid">
 			<div class="span12">
 				<div class="widget-box">
-					<div class="widget-title"> <span class="icon"><a href="form_protype.php"><i class="icon-plus"></i></a></span>
-						<h5>Products</h5>
+					<div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+						<h5>Thông tin loại sản phẩm</h5>
 					</div>
 					<div class="widget-content nopadding">
-						<table class="table table-bordered table-striped">
-							<thead>
-							<tr>
-								<th>Type_ID</th>
-								<th>Type_Name</th>
-								<th>Type_image</th>
-								<th>Action</th>
-							</tr>
-							</thead>
-							<tbody>
-							<?php 
-								$protypes = $db->getTable('protypes');
-								foreach ($protypes as $value) {
-									echo "<tr>";
-									echo "<td>".$value['type_ID']."</td>";
-									echo "<td>".$value['type_name']."</td>";
-									echo "<td><img src='public/images/".$value['type_img']."' style='width:100px'></td>";
-									echo "<td>";
-									echo "<a href='form_protype?protype=".$value['type_ID']."' class='btn btn-success btn-mini'>Chỉnh sửa</a>";
-									echo "<a href='delete.php?type_id=".$value['type_ID']."' class='btn btn-danger btn-mini'>Xóa</a>";
-									echo "</td>";
-									echo "</tr>";
-								}
-							 ?>
-							</tbody>
-						</table>
+
+						<!-- BEGIN USER FORM -->
+						<form action="update.php?protype=<?php echo $id ?>" method="POST" class="form-horizontal" enctype="multipart/form-data">
+							<div class="control-group">
+								<label class="control-label">Tên loại sản phẩm:</label>
+								<div class="controls">
+									<?php 
+										echo '<input type="text" class="span11" placeholder="Tên loại sản phẩm" name="type_name" value="'.$name.'"> '
+									 ?>
+									*
+								</div>
+							</div>
+
+	
+							<div class="control-group">
+								<label class="control-label">Chọn hình ảnh:</label>
+								<div class="controls">
+									<input type="file" name="fileToUpload" id="fileToUpload">
+								</div>
+							</div>
+
+							<div class="form-actions">
+								<button style="float:right;" type="submit" class="btn btn-success">
+									<?php 
+										if (!isset($_GET["id"])) {
+											echo 'Thêm mới';
+										}
+										else {
+											echo 'Cập nhật';
+										}
+									 ?>
+										
+									</button>
+							</div>
+						</form>
+						<!-- END USER FORM -->
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<!-- END CONTENT -->
 
+<!-- END CONTENT -->
 <!--Footer-part-->
 <div class="row-fluid">
 	<div id="footer" class="span12"> 2017 &copy; TDC - Lập trình web 1</div>
